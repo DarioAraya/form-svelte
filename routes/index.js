@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 
 /**Página de despliegue de listas */
 router.get('/list', function(req, res, next) {
+  console.log('haciendo cambios');
   res.sendFile(path.join(__dirname, 'public', 'list.html'))
 });
 
