@@ -1,0 +1,11 @@
+{
+    "development": {
+        "bspApi": "http://ec2-54-67-11-136.us-west-1.compute.amazonaws.com:7171",
+        "bwayApi": "http://xxxxxxxxx"
+    },
+  
+    "production": {
+        "bspApi": "http://xxxxxx",
+        "bwayApi": "http://xxxxxx"
+    }
+  }
