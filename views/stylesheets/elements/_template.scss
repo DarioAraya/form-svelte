@@ -1,37 +1,90 @@
  /**Css asociados a la estructura paginas  basadas en  tres columnas*/
- .form-container {	
+ html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+:root {
+    --mdc-theme-primary: #0099CC;
+    --mdc-ripple-color: #0099cc00;
+}
+
+body {
+    background-color: #F7F7F7;
+
     display: grid;
-    grid-template-columns: 20% 60% 20%;
-    grid-column-gap: 10px;
- }
- 
- .form-left-container {
- 
-     grid-column: 1;
- }
- 
- 
- .form-right-container{
- 
-     grid-column:3;
- }
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 70px 50px 55%;
+    grid-auto-rows: minmax(150px, auto);
+    height: 100%;
+    margin: 0;
+}
 
- .form-central-container{
- 
-    grid-column:2;
+/*grid items*/
+
+.grid-item-1 {
+    grid-column: 1 / -1;
 }
 
 
 
+.grid-item-2 {
+    display: grid;
+    grid-template-columns: 100%;
+    background-color: #FFFFFF;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    margin-left: 10%;
+    margin-right: 5%;
+}
 
- .form-right-container-on-right{
-    grid-column: 3;
-    justify-self: end;
+.grid-item-3 {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100% 100%;
+    grid-row-start: 3;
+    grid-row-end: 5;
+
+    margin-left: 2%;
+    margin-bottom: 3.5%;
+    overflow: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
+
+.grid-item-4 {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    background-color: #FFFFFF;
+    padding-left: 4%;
+    margin-right: 3.5%;
+    margin-bottom: 5%;
+}
+
+.grid-item-5 {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    background-color: #FFFFFF;
+    padding-left: 4%;
+    margin-right: 3.5%;
+    margin-bottom: 5%;
 }
 
 
 
- .form-one-container  {
-    grid-column-start: 1;
-    grid-column-end: 3;
- }
+.shadow {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+}
+
+/*topbar*/
+.mdc-top-app-bar__row {
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
