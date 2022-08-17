@@ -53,6 +53,11 @@
     color: #0099CC;
 }
 
+.on-focus {
+    background: rgba(0, 153, 204, 0.1);
+    transition: 0.5s;
+}
+
 .mdc-deprecated-list-item.menu:hover {
     background-color: rgba(0, 153, 204, 0.1) !important;
 }

@@ -1,6 +1,8 @@
+<script>
+  export let response;
+</script>
 <!--Representante legal-->
 
-<form class="grid-item grid-item-5 shadow" id="dataAgent" method="PUT">
     <div class="grid-form form-title title-top data">Datos del representante legal</div>
     <!--Rut representante-->
     <div class="grid-form legal">RUT del representante legal</div>
@@ -8,7 +10,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="legal">
         <span class="mdc-text-field__ripple legal"></span>
         <input class="mdc-text-field__input legal" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.legalAgentCode || ''} required />
         <span class="mdc-line-ripple legal"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -24,7 +26,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="nombre">
         <span class="mdc-text-field__ripple nombre"></span>
         <input class="mdc-text-field__input nombre" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.legalAgentName || ''} required />
         <span class="mdc-line-ripple nombre"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -40,7 +42,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="email">
         <span class="mdc-text-field__ripple email"></span>
         <input class="mdc-text-field__input email" type="email" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.legalAgentEmail || ''} required />
         <span class="mdc-line-ripple email"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -105,4 +107,4 @@
         <span class="mdc-button__label button-2">ENVIAR</span>
       </button>
     </div>
-  </form>
+  

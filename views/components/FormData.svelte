@@ -1,4 +1,9 @@
-<form class="grid-item grid-item-4 shadow" id="dataCompany" method="PUT">
+<script>
+export let response;
+
+
+</script>
+
     <div class="grid-form form-title title-top dataCompany">Datos de la empresa</div>
     <!--Rut de la empresa-->
     <div class="grid-form rut">RUT de la empresa</div>
@@ -6,7 +11,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="rut_empresa">
         <span class="mdc-text-field__ripple rut"></span>
         <input class="mdc-text-field__input rut" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.cpnCode || ''} required />
         <span class="mdc-line-ripple rut"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -21,7 +26,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="razon_social">
         <span class="mdc-text-field__ripple razon"></span>
         <input class="mdc-text-field__input razon" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.legalName || ''} required />
         <span class="mdc-line-ripple razon"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -36,7 +41,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="direccion">
         <span class="mdc-text-field__ripple direccion"></span>
         <input class="mdc-text-field__input direccion" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.cpnLegalAddress || ''} required />
         <span class="mdc-line-ripple direccion"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -51,7 +56,7 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="comuna">
         <span class="mdc-text-field__ripple comuna"></span>
         <input class="mdc-text-field__input comuna" type="text" placeholder="Escriba texto" aria-label="Label"
-          value="" required />
+          value={response.cpnLegalCounty || ''} required />
         <span class="mdc-line-ripple comuna"></span>
       </label>
       <div class="mdc-text-field-helper-line">
@@ -83,4 +88,4 @@
       </button>
     </div>
   
-  </form>
+  
