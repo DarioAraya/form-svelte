@@ -6,11 +6,11 @@ import Snackbar from "./components/Snackbar.svelte";
 import Topbar from "./components/Topbar.svelte";
 import ApiCall from "../helpers/api_call";
 import {onMount} from 'svelte';
+import { MDCSnackbar } from '@material/snackbar';
 
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 let response={};
-
 let containerForms;
 let dataCompany;
 let dataAgent;
@@ -37,10 +37,42 @@ const calculate = () =>{
   }
 }
 
+let snackbar;
+let snackbarStyles = {
+  surface: '',
+  text: '',
+}
+
 onMount(async()=>{
-  const {data} = await ApiCall.request(`/formulario/gateway/${id}.json`, 'get');
-  response = data.data;
+  const divSnackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+  snackbar = divSnackbar;
+
+  try {
+    const {data} = await ApiCall.request(`/formulario/gateway/${id}.json`, 'get');
+    response = data.data;
+
+  } catch (error) {
+    snackbarStyles.surface='danger';
+    snackbarStyles.text=`Sin respuesta del servidor (${error.message}).`;
+    snackbar.open();
+  }
 })
+
+
+
+const sendDataCompany=async(e)=>{
+
+  snackbarStyles.surface='success';
+  snackbarStyles.text='Se ha registrado tu información.';
+  snackbar.open();
+}
+
+const sendDataAgent=()=>{
+  snackbarStyles.surface='success';
+  snackbarStyles.text='Se ha registrado tu información.';
+  snackbar.open();
+}
+
 
 </script>
 
@@ -48,7 +80,7 @@ onMount(async()=>{
 <div class="grid-item grid-item-1">
 <Topbar/>
 </div>
-<Snackbar/>
+<Snackbar {snackbarStyles}/>
 <!--menu-->
 <div class="grid-item grid-item-2 shadow" id="menu-item">
 <Menu {company}{agent}{dataCompany}{dataAgent}/>
@@ -56,10 +88,10 @@ onMount(async()=>{
 
 <!--content-->
 <div class="grid-item grid-item-3" id="content-item" bind:this={containerForms} on:scroll={calculate}>
-  <form class="grid-item grid-item-4 shadow" id="dataCompany" method="PUT" bind:this={dataCompany}>
+  <form class="grid-item grid-item-4 shadow" bind:this={dataCompany} on:submit|preventDefault={sendDataCompany}>
     <FormData {response}/>
   </form>
-  <form class="grid-item grid-item-5 shadow" id="dataAgent" method="PUT" bind:this={dataAgent}>
+  <form class="grid-item grid-item-5 shadow" bind:this={dataAgent} on:submit|preventDefault={sendDataAgent}>
     <FormAgent {response}/>
   </form>
 </div>

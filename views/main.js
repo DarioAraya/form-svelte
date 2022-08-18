@@ -2,6 +2,7 @@ import App from "./App.svelte";
 import { MDCRipple } from "@material/ripple";
 import { MDCTextField } from "@material/textfield";
 
+
 const app = new App({
   target: document.body,
   props: {
@@ -16,5 +17,7 @@ const button = [...document.querySelectorAll(".mdc-button")].map(
 const textField = [...document.querySelectorAll(".mdc-text-field")].map(
   (el) => new MDCTextField(el)
 );
+
+
 
 export default app;

@@ -32,4 +32,11 @@ router.get('/formulario/gateway/:id.json', async(req, res, next) => {
   res.json({ data });
 })
 
+// Simulación de actualizacion de datos
+router.put('/formulario/gateway/:id.json', async(req, res, next) => {
+  const data = await req.body;
+  console.log(data);
+  res.json(data);
+})
+
 module.exports = router;
