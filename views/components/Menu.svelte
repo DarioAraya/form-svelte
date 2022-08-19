@@ -13,6 +13,7 @@
     dataAgent.scrollIntoView();
   }
 
+  //si company o agent es true, el elemento del menu cambiara sus estilos
 
 </script>
 

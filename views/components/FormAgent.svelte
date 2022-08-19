@@ -1,12 +1,12 @@
 <script>
-import {callData,snack,response} from '../stores';
+import {formGate,snack,response} from '../stores';
 export let snackbar;
 export let id;
 let legalAgentCode='';
 let legalAgentName='';
 let legalAgentEmail='';
 let disableButton=false;
-
+//si stateAgent es true, se le asignan a los inputs el valor inicial que trajo la llamada get en App.svelte
 $: if($response.stateAgent){
   let res = {...$response};
   legalAgentCode = res.legalAgentCode;
@@ -14,7 +14,7 @@ $: if($response.stateAgent){
   legalAgentEmail= res.legalAgentEmail;
   response.mostrar({...res, stateAgent:false});
 }
-
+//se toman los valores actuales de los inputs y se sobrescriben con los de la llamda put
 const sendDataAgent=async()=>{
   disableButton = true;
   const body = {
@@ -23,7 +23,7 @@ const sendDataAgent=async()=>{
     legalAgentEmail:legalAgentEmail,
   }
   try {
-    let data = await callData.put(id,body);
+    let data = await formGate.put(id,body);
     if (data != undefined) {
         //se asignan los nuevos valores al value 
         legalAgentCode = data.legalAgentCode;

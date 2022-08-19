@@ -1,5 +1,5 @@
 <script>
-import {callData,snack,response} from '../stores';
+import {formGate,snack,response} from '../stores';
 export let snackbar;
 export let id;
 export let dataAgent;
@@ -9,7 +9,7 @@ let cpnLegalAddress='';
 let cpnLegalCounty='';
 let economyActivity='';
 let disableButton=false;
-
+//si stateCompany es true, se le asignan a los inputs el valor inicial que trajo la llamada get en App.svelte
 $: if($response.stateCompany){
   let res = {...$response};
   cpnCode = res.cpnCode;
@@ -19,7 +19,7 @@ $: if($response.stateCompany){
   economyActivity=res.economyActivity;
   response.mostrar({...res, stateCompany:false});
 }
-
+//se toman los valores actuales de los inputs y se sobrescriben con los de la llamda put
 const sendDataCompany=async()=>{
   disableButton = true;
   const body = {
@@ -30,7 +30,7 @@ const sendDataCompany=async()=>{
     economyActivity:economyActivity
   }
   try {
-    let data = await callData.put(id,body);
+    let data = await formGate.put(id,body);
     if (data != undefined) {
         //se asignan los nuevos valores al value 
         cpnCode = data.cpnCode;
@@ -38,6 +38,7 @@ const sendDataCompany=async()=>{
         cpnLegalAddress = data.cpnLegalAddress;
         cpnLegalCounty = data.cpnLegalCounty;
         economyActivity = data.economyActivity;
+        //llamando al snackbar
         snack.mostrar({surface: 'success', text:'Se ha registrado tu información.'});
         snackbar.open();
         dataAgent.scrollIntoView();

@@ -1,7 +1,8 @@
 import {writable} from 'svelte/store'
 import ApiCall from "../helpers/api_call";
 
-const data = () => {
+//trae y actualiza la info de los formularios
+const forms = () => {
     const {subscribe, set, update} = writable('')
 
     return {
@@ -18,8 +19,8 @@ const data = () => {
     }
 }
 
-export const callData = data()
-
+export const formGate = forms()
+//crea un modelo de snackbar base
 const createSnackbar = () =>{
     const {subscribe,set,update} = writable({
         surface: '', text: '', estado:false
@@ -34,7 +35,8 @@ const createSnackbar = () =>{
 }
 
 export const snack = createSnackbar()
-
+//crea un modelo de objeto base
+//stateCompany y stateAgent se usan para que no se asignen permanentemente las variables
 const createObject = () =>{
     const {subscribe,set,update} = writable({
         cpnCode: '',legalName:'',cpnLegalAddress:'',cpnLegalCounty:'', economyActivity:'',legalAgentCode:'',legalAgentName:'',legalAgentEmail:'', stateCompany:false,stateAgent:false
