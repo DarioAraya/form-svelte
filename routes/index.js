@@ -8,7 +8,7 @@ var path = require('path');
 var environment = process.env.NODE_ENV || "development";
 var settings = require("../config/settings.json")[environment];
 const ApiCall = require('../helpers/api_call');
-const catchAsync = require('../helpers/catchAsync');
+
 
 
 /* GET página principal en este ejemplo se despliega un formularios */
