@@ -19,7 +19,6 @@ router.get('/', function(req, res, next) {
 // Simulación de datos para cargar el formulario con ellos
 router.get('/formulario/gateway/:id.json', async(req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   const response = await ApiCall.request(
     `${settings.api}/v1/companies/${id}.json`,
     "get",

@@ -4,18 +4,51 @@ import FormData from "./components/FormData.svelte";
 import Menu from "./components/Menu.svelte";
 import Snackbar from "./components/Snackbar.svelte";
 import Topbar from "./components/Topbar.svelte";
-import ApiCall from "../helpers/api_call";
 import {onMount} from 'svelte';
 import { MDCSnackbar } from '@material/snackbar';
+import {callData,snack,response} from './stores';
 
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
-let response={};
 let containerForms;
 let dataCompany;
 let dataAgent;
 let company = false;
 let agent = false;
+
+
+let snackbar;
+
+onMount(async()=>{
+  const divSnackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+  snackbar = divSnackbar;
+  let divDataCompany = document.querySelector('#companyDataForm');
+  let divDataAgent = document.querySelector('#agentDataForm');
+  dataCompany=divDataCompany;
+  dataAgent=divDataAgent;
+  try {
+    let {data} = await callData.get(id)
+
+    response.mostrar({
+      cpnCode: data.cpnCode,
+      legalName:data.legalName,
+      cpnLegalAddress:data.cpnLegalAddress,
+      cpnLegalCounty:data.cpnLegalCounty, 
+      economyActivity:'',
+      legalAgentCode: data.legalAgentCode,
+      legalAgentName: data.legalAgentName,
+      legalAgentEmail: data.legalAgentEmail,
+      stateCompany:true,
+      stateAgent:true
+    })
+
+  } catch (error) {
+    console.log(error);
+    snack.mostrar({surface:'danger',text:`Ha ocurrido un error. (${error.message})`,estado:true})
+    snackbar.open();
+  }
+})
+
 const calculate = () =>{
   let dataCompany_top_offset=dataCompany.offsetTop;
   let dataCompany_bottom_offset =
@@ -37,50 +70,13 @@ const calculate = () =>{
   }
 }
 
-let snackbar;
-let snackbarStyles = {
-  surface: '',
-  text: '',
-}
-
-onMount(async()=>{
-  const divSnackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
-  snackbar = divSnackbar;
-
-  try {
-    const {data} = await ApiCall.request(`/formulario/gateway/${id}.json`, 'get');
-    response = data.data;
-
-  } catch (error) {
-    snackbarStyles.surface='danger';
-    snackbarStyles.text=`Sin respuesta del servidor (${error.message}).`;
-    snackbar.open();
-  }
-})
-
-
-
-const sendDataCompany=async(e)=>{
-
-  snackbarStyles.surface='success';
-  snackbarStyles.text='Se ha registrado tu información.';
-  snackbar.open();
-}
-
-const sendDataAgent=()=>{
-  snackbarStyles.surface='success';
-  snackbarStyles.text='Se ha registrado tu información.';
-  snackbar.open();
-}
-
-
 </script>
 
 <!--navbar-->
 <div class="grid-item grid-item-1">
 <Topbar/>
 </div>
-<Snackbar {snackbarStyles}/>
+<Snackbar {snackbar}/>
 <!--menu-->
 <div class="grid-item grid-item-2 shadow" id="menu-item">
 <Menu {company}{agent}{dataCompany}{dataAgent}/>
@@ -88,11 +84,11 @@ const sendDataAgent=()=>{
 
 <!--content-->
 <div class="grid-item grid-item-3" id="content-item" bind:this={containerForms} on:scroll={calculate}>
-  <form class="grid-item grid-item-4 shadow" bind:this={dataCompany} on:submit|preventDefault={sendDataCompany}>
-    <FormData {response}/>
-  </form>
-  <form class="grid-item grid-item-5 shadow" bind:this={dataAgent} on:submit|preventDefault={sendDataAgent}>
-    <FormAgent {response}/>
-  </form>
+ 
+    <FormData {snackbar}{id}{dataAgent}/>
+
+ 
+    <FormAgent {snackbar}{id}/>
+
 </div>
 

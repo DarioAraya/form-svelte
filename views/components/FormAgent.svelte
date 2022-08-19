@@ -1,9 +1,52 @@
 <script>
-  export let response;
-  
+import {callData,snack,response} from '../stores';
+export let snackbar;
+export let id;
+let legalAgentCode='';
+let legalAgentName='';
+let legalAgentEmail='';
+let disableButton=false;
+
+$: if($response.stateAgent){
+  let res = {...$response};
+  legalAgentCode = res.legalAgentCode;
+  legalAgentName = res.legalAgentName;
+  legalAgentEmail= res.legalAgentEmail;
+  response.mostrar({...res, stateAgent:false});
+}
+
+const sendDataAgent=async()=>{
+  disableButton = true;
+  const body = {
+    legalAgentCode: legalAgentCode,
+    legalAgentName:legalAgentName,
+    legalAgentEmail:legalAgentEmail,
+  }
+  try {
+    let data = await callData.put(id,body);
+    if (data != undefined) {
+        //se asignan los nuevos valores al value 
+        legalAgentCode = data.legalAgentCode;
+        legalAgentName = data.legalAgentName;
+        legalAgentEmail = data.legalAgentEmail;
+        snack.mostrar({surface: 'success', text:'Se ha registrado tu información.'});
+        snackbar.open();
+        disableButton = false;
+      }else{
+        snack.mostrar({surface: 'danger', text:`Sin respuesta del servidor.`});
+        snackbar.open();
+        disableButton = false;
+      }
+  } catch (error) {
+      snack.mostrar({surface: 'danger', text:`Sin respuesta del servidor. ${error.message}`});
+      snackbar.open();
+      disableButton = false;
+  }
+}
+
 </script>
 <!--Representante legal-->
-
+<form class="grid-item grid-item-5 shadow" on:submit|preventDefault={sendDataAgent} id="agentDataForm">
     <div class="grid-form form-title title-top data">Datos del representante legal</div>
     <!--Rut representante-->
     <div class="grid-form legal">RUT del representante legal</div>
@@ -11,12 +54,12 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="legal">
         <span class="mdc-text-field__ripple legal"></span>
         <input class="mdc-text-field__input legal" type="text" placeholder="Escriba texto" aria-label="Label"
-          bind:value={response.legalAgentCode} required />
+          bind:value={legalAgentCode} required />
         <span class="mdc-line-ripple legal"></span>
       </label>
       <div class="mdc-text-field-helper-line">
         <div class="mdc-text-field-helper-text legal" aria-hidden="true">
-          {!response.legalAgentCode ? 'Ingrese un Rut' : ''}
+          {!legalAgentCode ? 'Ingrese un Rut' : ''}
         </div>
       </div>
     </div>
@@ -27,12 +70,12 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="nombre">
         <span class="mdc-text-field__ripple nombre"></span>
         <input class="mdc-text-field__input nombre" type="text" placeholder="Escriba texto" aria-label="Label"
-          bind:value={response.legalAgentName} required />
+          bind:value={legalAgentName} required />
         <span class="mdc-line-ripple nombre"></span>
       </label>
       <div class="mdc-text-field-helper-line">
         <div class="mdc-text-field-helper-text nombre" aria-hidden="true">
-          {!response.legalAgentName ? 'Ingrese un Nombre' : ''}
+          {!legalAgentName ? 'Ingrese un Nombre' : ''}
         </div>
       </div>
     </div>
@@ -43,12 +86,12 @@
       <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label" id="email">
         <span class="mdc-text-field__ripple email"></span>
         <input class="mdc-text-field__input email" type="email" placeholder="Escriba texto" aria-label="Label"
-          bind:value={response.legalAgentEmail} required />
+          bind:value={legalAgentEmail} required />
         <span class="mdc-line-ripple email"></span>
       </label>
       <div class="mdc-text-field-helper-line">
         <div class="mdc-text-field-helper-text email" aria-hidden="true">
-          {#if !response.legalAgentEmail || response.legalAgentEmail.indexOf("@") == -1}
+          {#if !legalAgentEmail || legalAgentEmail.indexOf("@") == -1}
             {'Ingrese un Email valido'}
           {/if}
         </div>
@@ -106,8 +149,8 @@
     <!--Boton-->
     <div class="grid-form button-2"></div>
     <div class="grid-form form-input form-button button-2">
-      <button type="submit" class="mdc-button mdc-button--raised button-2">
+      <button type="submit" class="mdc-button mdc-button--raised button-2" disabled='{disableButton}'>
         <span class="mdc-button__label button-2">ENVIAR</span>
       </button>
     </div>
-  
+  </form>
